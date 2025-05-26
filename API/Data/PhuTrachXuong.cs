@@ -30,6 +30,7 @@ namespace API.Data
 
         // Navigation properties
         public virtual CoSo CoSo { get; set; }
+        public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
         public virtual ICollection<NhomXuong> NhomXuongs { get; set; }
     }
 }

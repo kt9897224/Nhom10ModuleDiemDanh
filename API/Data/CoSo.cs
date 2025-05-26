@@ -23,6 +23,7 @@ namespace API.Data
         public virtual DiaDiem DiaDiem { get; set; }
         public virtual IP IP { get; set; }
         public virtual CaHoc CaHoc { get; set; }
+        public virtual ICollection<PhuTrachXuong> PhuTrachXuongs { get; set; }
         public virtual ICollection<BoMonCoSo> BoMonCoSos { get; set; }
         public virtual ICollection<KHNXCaHoc> KHNXCaHocs { get; set; }
     }

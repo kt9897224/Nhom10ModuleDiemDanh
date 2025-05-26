@@ -14,7 +14,7 @@ namespace API.Data
 
         public Guid? IdDuAn { get; set; }
         public Guid? IdBoMon { get; set; }
-        public Guid? IdNhanVien { get; set; }
+        public Guid? IdPhuTrachXuong { get; set; }
 
         [MaxLength(255)]
         public string MoTa { get; set; }
@@ -24,7 +24,7 @@ namespace API.Data
 
         // Navigation properties
         public virtual DuAn DuAn { get; set; }
-        public virtual QuanLyBoMon BoMon { get; set; }
+        public virtual QuanLyBoMon QuanLyBoMon { get; set; }
         public virtual PhuTrachXuong PhuTrachXuong { get; set; }
         public virtual ICollection<SinhVien> SinhViens { get; set; }
         public virtual ICollection<DiemDanh> DiemDanhs { get; set; }
