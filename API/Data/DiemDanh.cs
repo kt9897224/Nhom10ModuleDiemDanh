@@ -1,18 +1,23 @@
-﻿namespace API.Data
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace API.Data
 {
     public class DiemDanh
     {
-        public Guid IdDiemDanh { get; set; }
+        [Key]
+        public Guid IdDiemDanh { get; set; } = Guid.NewGuid();
         public Guid IdSinhVien { get; set; }
         public Guid IdCaHoc { get; set; }
         public Guid IdNhomXuong { get; set; }
         public Guid IdNhanVien { get; set; }
-        public DateTime NgayTao { get; set; }
+        public DateTime NgayTao { get; set; } = DateTime.Now;
 
-        public SinhVien SinhVien { get; set; }
-        public CaHoc CaHoc { get; set; }
-        public NhomXuong NhomXuong { get; set; }
-        public PhuTrachXuong NhanVien { get; set; }
-        public ICollection<LichSuDiemDanh> LichSuDiemDanhs { get; set; }
+        // Navigation properties
+        public virtual SinhVien SinhVien { get; set; }
+        public virtual CaHoc CaHoc { get; set; }
+        public virtual NhomXuong NhomXuong { get; set; }
+        public virtual PhuTrachXuong PhuTrachXuong { get; set; }
+        public virtual ICollection<LichSuDiemDanh> LichSuDiemDanhs { get; set; }
     }
 }

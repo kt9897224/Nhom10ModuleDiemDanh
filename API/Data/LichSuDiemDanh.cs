@@ -1,8 +1,12 @@
-﻿namespace API.Data
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace API.Data
 {
     public class LichSuDiemDanh
     {
-        public Guid IdLSDD { get; set; }
+        [Key]
+        public Guid IdLSDD { get; set; } = Guid.NewGuid();
         public Guid IdDiemDanh { get; set; }
         public Guid IdNXCH { get; set; }
         public DateTime ThoiGianDiemDanh { get; set; }
@@ -10,12 +14,13 @@
         public string HinhThuc { get; set; }
         public string DiaDiem { get; set; }
         public string GhiChu { get; set; }
-        public int TrangThai { get; set; }
-        public DateTime NgayTao { get; set; }
+        public int TrangThai { get; set; } = 1;
+        public DateTime NgayTao { get; set; } = DateTime.Now;
         public DateTime? NgayCapNhat { get; set; }
-        public int TrangThaiDuyet { get; set; }
+        public int TrangThaiDuyet { get; set; } = 1;
 
-        public DiemDanh DiemDanh { get; set; }
-        public CoSo CoSo { get; set; }
+        // Navigation properties
+        public virtual DiemDanh DiemDanh { get; set; }
+        public virtual KHNXCaHoc KHNXCaHoc { get; set; }
     }
 }

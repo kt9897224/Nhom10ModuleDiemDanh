@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Data
 {
@@ -21,7 +22,7 @@ namespace API.Data
         public bool TrangThai { get; set; } = true;
 
         // Navigation properties
-        public ICollection<CoSo> CoSos { get; set; }
-        public ICollection<LichGiangDay> LichGiangDays { get; set; }
+        public virtual ICollection<CoSo> CoSos { get; set; }
+        public virtual ICollection<LichGiangDay> LichGiangDays { get; set; }
     }
 }

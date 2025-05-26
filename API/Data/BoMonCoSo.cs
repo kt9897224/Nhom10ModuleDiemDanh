@@ -1,11 +1,20 @@
-﻿namespace API.Data
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace API.Data
 {
     public class BoMonCoSo
     {
-        public Guid IDBoMon { get; set; }
-        public Guid IDCoSo { get; set; }
+        [Key]
+        public Guid IdBoMonCoSo { get; set; } = Guid.NewGuid();
+        public Guid? IdBoMon { get; set; }
+        public Guid? IdCoSo { get; set; }
+        public DateTime NgayTao { get; set; } = DateTime.Now;
+        public DateTime? NgayCapNhat { get; set; }
+        public bool TrangThai { get; set; } = true;
 
-        public QuanLyBoMon QuanLyBoMon { get; set; }
-        public CoSo CoSo { get; set; }
+        // Navigation properties
+        public virtual QuanLyBoMon QuanLyBoMon { get; set; }
+        public virtual CoSo CoSo { get; set; }
     }
 }

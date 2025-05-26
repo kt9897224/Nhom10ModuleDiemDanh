@@ -1,14 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace API.Data
 {
     public class HocKy
     {
         [Key]
-        public Guid IDHocKy { get; set; }
+        public Guid IdHocKy { get; set; } = Guid.NewGuid();
         public string TenHocKy { get; set; }
-        public bool TrangThai { get; set; }
+        public DateTime NgayTao { get; set; } = DateTime.Now;
+        public DateTime? NgayCapNhat { get; set; }
+        public bool TrangThai { get; set; } = true;
 
-        public ICollection<LichHoc> LichHocs { get; set; }
+        // Navigation properties
+        public virtual ICollection<DuAn> DuAns { get; set; }
     }
 }

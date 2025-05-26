@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Data
 {
@@ -18,6 +19,6 @@ namespace API.Data
         public DateTime? NgayCapNhat { get; set; }
         public int TrangThai { get; set; } = 1;
 
-        public ICollection<DuAn> DuAns { get; set; }
+        public virtual ICollection<DuAn> DuAns { get; set; }
     }
 }
