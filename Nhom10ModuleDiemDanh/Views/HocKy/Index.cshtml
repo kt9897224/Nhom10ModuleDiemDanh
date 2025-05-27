@@ -2,7 +2,9 @@
 
 <h2>Danh sách Học kỳ</h2>
 
-<a asp-action="Create">Thêm mới</a>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFormCreate">
+    Thêm học kỳ
+</button>
 
 <table>
     <thead>
@@ -19,12 +21,46 @@
             <tr>
                 <td>@item.TenHocKy</td>
                 <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
-                <td>@(item.TrangThai ? "Đang hoạt động" : "Ngừng")</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdHocKy">Sửa</a> |
-                    <a asp-action="ChangeStatus" asp-route-id="@item.IdHocKy">Đổi trạng thái</a>
+                    <form asp-action="ToggleStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.IdHocKy" />
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="TrangThai"
+                                   onchange="this.form.submit()" @(item.TrangThai ? "checked" : "") />
+                            <label class="form-check-label">
+                                @(item.TrangThai ? "Đang hoạt động" : "Ngừng")
+                            </label>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalFormEdit_@item.IdHocKy">
+                        Sửa
+                    </button>
                 </td>
             </tr>
+
+            <div class="modal fade" id="modalFormEdit_@item.IdHocKy" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            @await Html.PartialAsync("Edit", item)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         }
     </tbody>
 </table>
+
+
+<div class="modal fade" id="modalFormCreate" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                @await Html.PartialAsync("Create", new API.Data.HocKy())
+            </div>
+        </div>
+    </div>
+</div>
