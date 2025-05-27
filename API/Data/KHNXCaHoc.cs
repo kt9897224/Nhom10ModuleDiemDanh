@@ -37,5 +37,7 @@ namespace API.Data
         public virtual KeHoachNhomXuong KeHoachNhomXuong { get; set; }
         public virtual CaHoc CaHoc { get; set; }
         public virtual ICollection<LichGiangDay> LichGiangDays { get; set; }
+        public virtual ICollection<LichHoc> LichHocs { get; set; }
+        public ICollection<LichSuDiemDanh> LichSuDiemDanhs { get; set; }
     }
 }

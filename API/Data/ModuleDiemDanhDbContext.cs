@@ -9,6 +9,7 @@ namespace API.Data
         {
         }
 
+        public DbSet<HocKy> hocKy { get; set; }
         public DbSet<SinhVien> SinhViens { get; set; }
         public DbSet<DiemDanh> DiemDanhs { get; set; }
         public DbSet<NhomXuong> NhomXuongs { get; set; }
@@ -39,32 +40,38 @@ namespace API.Data
             modelBuilder.Entity<DiemDanh>()
                 .HasOne(d => d.SinhVien)
                 .WithMany(s => s.DiemDanhs)
-                .HasForeignKey(d => d.IdSinhVien);
+                .HasForeignKey(d => d.IdSinhVien)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DiemDanh>()
                 .HasOne(d => d.CaHoc)
                 .WithMany(c => c.DiemDanhs)
-                .HasForeignKey(d => d.IdCaHoc);
+                .HasForeignKey(d => d.IdCaHoc)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<DiemDanh>()
                 .HasOne(d => d.NhomXuong)
                 .WithMany(n => n.DiemDanhs)
-                .HasForeignKey(d => d.IdNhomXuong);
+                .HasForeignKey(d => d.IdNhomXuong)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<DiemDanh>()
                 .HasOne(d => d.PhuTrachXuong)
                 .WithMany(p => p.DiemDanhs)
-                .HasForeignKey(d => d.IdNhanVien);
+                .HasForeignKey(d => d.IdNhanVien)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<KeHoachNhomXuong>()
                 .HasOne(k => k.KeHoach)
                 .WithMany(k => k.KeHoachNhomXuongs)
-                .HasForeignKey(k => k.IdKeHoach);
+                .HasForeignKey(k => k.IdKeHoach)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<KeHoachNhomXuong>()
                 .HasOne(k => k.NhomXuong)
                 .WithMany(n => n.KeHoachNhomXuongs)
-                .HasForeignKey(k => k.IdNhomXuong);
+                .HasForeignKey(k => k.IdNhomXuong)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<KHNXCaHoc>()
                 .HasOne(k => k.KeHoachNhomXuong)
@@ -79,17 +86,20 @@ namespace API.Data
             modelBuilder.Entity<LichGiangDay>()
                 .HasOne(l => l.KHNXCaHoc)
                 .WithMany(k => k.LichGiangDays)
-                .HasForeignKey(l => l.IdNXCH);
+                .HasForeignKey(l => l.IdNXCH)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<LichGiangDay>()
                 .HasOne(l => l.DiaDiem)
                 .WithMany(d => d.LichGiangDays)
-                .HasForeignKey(l => l.IdDiaDiem);
+                .HasForeignKey(l => l.IdDiaDiem)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LichGiangDay>()
                 .HasOne(l => l.NhomXuong)
                 .WithMany(n => n.LichGiangDays)
-                .HasForeignKey(l => l.IdNhomXuong);
+                .HasForeignKey(l => l.IdNhomXuong)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<LichGiangDay>()
                 .HasOne(l => l.DuAn)
@@ -130,6 +140,42 @@ namespace API.Data
                 .HasOne(l => l.DiemDanh)
                 .WithMany(d => d.LichSuDiemDanhs)
                 .HasForeignKey(l => l.IdDiemDanh);
+
+            modelBuilder.Entity<DuAn>()
+                .HasOne(d => d.HocKy)
+                .WithMany(h => h.DuAns)
+                .HasForeignKey(d => d.IdHocKy);
+
+            modelBuilder.Entity<LichHoc>()
+                .HasOne(l => l.KHNXCaHoc)
+                .WithMany(k => k.LichHocs)
+                .HasForeignKey(l => l.IdNXCH)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LichHoc>()
+                .HasOne(l => l.DuAn)
+                .WithMany(d => d.LichHocs)
+                .HasForeignKey(l => l.IDHocKy) 
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LichHoc>()
+                .HasOne(l => l.NhomXuong)
+                .WithMany(n => n.LichHocs)
+                .HasForeignKey(l => l.IdNhomXuong)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<LichSuDiemDanh>()
+                .HasOne(l => l.DiemDanh)
+                .WithMany(d => d.LichSuDiemDanhs)
+                .HasForeignKey(l => l.IdDiemDanh)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LichSuDiemDanh>()
+                .HasOne(lsdd => lsdd.KHNXCaHoc)
+                .WithMany(kh => kh.LichSuDiemDanhs)
+                .HasForeignKey(lsdd => lsdd.IdNXCH)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

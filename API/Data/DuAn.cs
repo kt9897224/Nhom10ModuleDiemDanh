@@ -23,5 +23,6 @@ namespace API.Data
         public virtual HocKy HocKy { get; set; }
         public virtual ICollection<NhomXuong> NhomXuongs { get; set; }
         public virtual ICollection<LichGiangDay> LichGiangDays { get; set; }
+        public virtual ICollection<LichHoc> LichHocs { get; set; } = new List<LichHoc>();
     }
 }
