@@ -5,9 +5,20 @@ namespace API.Data
 {
     public class ModuleDiemDanhDbContext : DbContext
     {
+        public ModuleDiemDanhDbContext()
+        {
+            
+        }
         public ModuleDiemDanhDbContext(DbContextOptions<ModuleDiemDanhDbContext> options) : base(options)
         {
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=LAPTOP-8CVDJNS6; Database=nhom10diemdanh;Trusted_Connection= True;" +
+                                                                           "TrustServerCertificate=True");
+        }
+        
 
         public DbSet<HocKy> hocKy { get; set; }
         public DbSet<SinhVien> SinhViens { get; set; }
