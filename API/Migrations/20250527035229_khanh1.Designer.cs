@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ModuleDiemDanhDbContext))]
-    [Migration("20250526142450_543")]
-    partial class _543
+    [Migration("20250527035229_khanh1")]
+    partial class khanh1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,10 @@ namespace API.Migrations
                     b.Property<Guid>("IdBanDaoTao")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("IdVaiTro")
                         .HasColumnType("uniqueidentifier");
@@ -51,7 +55,7 @@ namespace API.Migrations
                     b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("VaiTroIdVaiTro")
+                    b.Property<Guid?>("VaiTroIdVaiTro")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdBanDaoTao");
@@ -905,9 +909,7 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Data.VaiTro", "VaiTro")
                         .WithMany("BanDaoTaos")
-                        .HasForeignKey("VaiTroIdVaiTro")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VaiTroIdVaiTro");
 
                     b.Navigation("VaiTro");
                 });

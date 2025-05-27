@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ModuleDiemDanhDbContext))]
-    partial class ModuleDiemDanhDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250527030959_khanh")]
+    partial class khanh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace API.Migrations
                     b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("VaiTroIdVaiTro")
+                    b.Property<Guid>("VaiTroIdVaiTro")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("IdBanDaoTao");
@@ -906,7 +909,9 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Data.VaiTro", "VaiTro")
                         .WithMany("BanDaoTaos")
-                        .HasForeignKey("VaiTroIdVaiTro");
+                        .HasForeignKey("VaiTroIdVaiTro")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("VaiTro");
                 });

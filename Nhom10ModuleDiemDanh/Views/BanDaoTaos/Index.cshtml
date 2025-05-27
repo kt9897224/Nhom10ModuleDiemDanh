@@ -1,0 +1,127 @@
+﻿@model IEnumerable<API.Data.BanDaoTao>
+@{
+    ViewData["Title"] = "Danh sách ban đào tạo";
+}
+
+<h1>Danh sách ban đào tạo</h1>
+
+<!-- Nút mở modal thêm -->
+<p>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreate">Thêm ban đào tạo</button>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Mã</th>
+            <th>Email</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TenBanDaoTao</td>
+                <td>@item.MaBanDaoTao</td>
+                <td>@item.Email</td>
+                <td>
+                    <form asp-action="ToggleStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.IdBanDaoTao" />
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" name="TrangThai"
+                                   onchange="this.form.submit()" @(item.TrangThai ? "checked" : "") />
+                            <label class="form-check-label">
+                                @(item.TrangThai ? "Đang hoạt động" : "Ngừng")
+                            </label>
+                        </div>
+                    </form>
+                </td>
+
+                <td>
+                    <!-- Nút mở modal sửa -->
+                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit_@item.IdBanDaoTao">Sửa</button>
+
+                    <!-- Nút mở modal chi tiết -->
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalDetail_@item.IdBanDaoTao">Chi tiết</button>
+                    <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modalDelete_@item.IdBanDaoTao">Delete</button>
+
+                </td>
+            </tr>
+
+            <!-- Modal sửa -->
+            <div class="modal fade" id="modalEdit_@item.IdBanDaoTao" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Sửa ban đào tạo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            @await Html.PartialAsync("Edit", item)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal chi tiết -->
+            <div class="modal fade" id="modalDetail_@item.IdBanDaoTao" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Chi tiết ban đào tạo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            @await Html.PartialAsync("Details", item)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal xóa -->
+            <div class="modal fade" id="modalDelete_@item.IdBanDaoTao" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Bạn có chắc chắn muốn xóa <strong>@item.TenBanDaoTao</strong> không?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@item.IdBanDaoTao" />
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+
+<!-- Modal thêm mới -->
+<div class="modal fade" id="modalCreate" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm ban đào tạo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("Create", new API.Data.BanDaoTao())
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
