@@ -11,7 +11,7 @@ namespace API.Data
         public string caHoc { get; set; }
         public TimeSpan? ThoiGianBatDau { get; set; }
         public TimeSpan? ThoiGianKetThuc { get; set; }
-        public string MoTa { get; set; }
+        public string MoTa { get; set; } //
         public DateTime NgayCapNhat { get; set; } = DateTime.Now;
         public int TrangThai { get; set; } = 1;
 

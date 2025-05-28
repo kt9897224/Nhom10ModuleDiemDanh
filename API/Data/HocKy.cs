@@ -13,6 +13,6 @@ namespace API.Data
         public DateTime? NgayCapNhat { get; set; }
         public bool TrangThai { get; set; } = true;
 
-        public virtual ICollection<DuAn> DuAns { get; set; }
+        public virtual ICollection<DuAn>? DuAns { get; set; }
     }
 }
