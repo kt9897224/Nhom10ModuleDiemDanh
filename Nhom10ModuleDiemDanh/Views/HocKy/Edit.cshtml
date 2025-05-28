@@ -1,0 +1,20 @@
+﻿@model API.Data.HocKy
+
+<form method="post" asp-action="Edit">
+    <input type="hidden" asp-for="IdHocKy" />
+    <div class="modal-header">
+        <h5 class="modal-title">Cập nhật học kỳ</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-3">
+            <label asp-for="TenHocKy" class="form-label" style="color: black">Tên học kỳ:</label>
+            <input asp-for="TenHocKy" class="form-control" required />
+            <span asp-validation-for="TenHocKy" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Cập nhật</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+    </div>
+</form>
