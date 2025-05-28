@@ -1,0 +1,41 @@
+﻿@model IEnumerable<API.Data.CaHoc>
+@{
+    ViewData["Title"] = "Danh sách ca học";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    <a class="btn btn-success mb-3" asp-action="Create">Thêm ca học mới</a>
+
+    <table class="table table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Tên ca học</th>
+                <th>Thời gian bắt đầu</th>
+                <th>Thời gian kết thúc</th>
+                <th>Trạng thái</th>
+                <th style="width: 220px;">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(string.IsNullOrWhiteSpace(item.TenCaHoc) ? "(Không có tên)" : item.TenCaHoc)</td>
+                    <td>@item.ThoiGianBatDau</td>
+                    <td>@item.ThoiGianKetThuc</td>
+                    <td>@(item.TrangThai == 1 ? "Hoạt động" : "Không hoạt động")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdCaHoc" class="btn btn-sm btn-info text-white me-1">Chi tiết</a>
+                        <a asp-action="Edit" asp-route-id="@item.IdCaHoc" class="btn btn-sm btn-primary me-1">Sửa</a>
+                        <form asp-action="Delete" asp-route-id="@item.IdCaHoc" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa ca học này?')">Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
