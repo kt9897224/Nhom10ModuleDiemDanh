@@ -21,37 +21,6 @@ namespace API.Controllers
             return Ok(data);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> GetAll([FromQuery] string? search, [FromQuery] bool? trangThai, [FromQuery] int page = 1, [FromQuery] int pageSize = 5)
-        //{
-        //    var query = _diemDanhDbContext.hocKy.AsQueryable();
-
-        //    if (!string.IsNullOrEmpty(search))
-        //    {
-        //        query = query.Where(x => x.TenHocKy.Contains(search));
-        //    }
-
-        //    if (trangThai.HasValue)
-        //    {
-        //        query = query.Where(x => x.TrangThai == trangThai.Value);
-        //    }
-
-        //    var totalItems = await query.CountAsync();
-        //    var data = await query
-        //        .OrderByDescending(x => x.NgayTao)
-        //        .Skip((page - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToListAsync();
-
-        //    return Ok(new
-        //    {
-        //        TotalItems = totalItems,
-        //        Page = page,
-        //        PageSize = pageSize,
-        //        Items = data
-        //    });
-        //}
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
@@ -61,7 +30,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] HocKy hocKy)
+        public async Task<IActionResult> Create(HocKy hocKy)
         {
             hocKy.IdHocKy = Guid.NewGuid();
             hocKy.NgayTao = DateTime.Now;
@@ -69,39 +38,34 @@ namespace API.Controllers
 
             _diemDanhDbContext.hocKy.Add(hocKy);
             await _diemDanhDbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Ok(hocKy);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] HocKy updatedHocKy)
+        public async Task<IActionResult> Update(Guid id, HocKy updatedHocKy)
         {
             var hocKy = await _diemDanhDbContext.hocKy.FindAsync(id);
             if (hocKy == null) return NotFound();
 
             hocKy.TenHocKy = updatedHocKy.TenHocKy;
             hocKy.NgayCapNhat = DateTime.Now;
-            hocKy.TrangThai = updatedHocKy.TrangThai;
             await _diemDanhDbContext.SaveChangesAsync();
 
             return Ok(hocKy);
         }
 
-        [HttpPost("doi-trang-thai/{id}")]
-        public async Task<IActionResult> DoiTrangThai(Guid id)
+        [HttpPut("TrangThai/{id}")]
+        public async Task<IActionResult> ChangeStatus(Guid id)
         {
             var hocKy = await _diemDanhDbContext.hocKy.FindAsync(id);
-            if (hocKy == null)
-            {
-                return NotFound();
-            }
+            if (hocKy == null) return NotFound();
 
             hocKy.TrangThai = !hocKy.TrangThai;
             hocKy.NgayCapNhat = DateTime.Now;
-
-            _diemDanhDbContext.hocKy.Update(hocKy);
             await _diemDanhDbContext.SaveChangesAsync();
 
-            return RedirectToAction("Index");
+            return Ok(hocKy);
         }
+
     }
 }
