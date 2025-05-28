@@ -22,24 +22,48 @@ namespace Nhom10ModuleDiemDanh.Controllers
         }
 
         // GET: BanDaoTaos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, string search = "", string status = "")
         {
-            List<BanDaoTao> data = new List<BanDaoTao>();
+            int pageSize = 5;
+
+            var pagedData = new
+            {
+                data = new List<BanDaoTao>(),
+                pagination = new
+                {
+                    currentPage = page,
+                    pageSize = pageSize,
+                    totalItems = 0,
+                    totalPages = 0
+                }
+            };
+
             using (HttpClient client = new HttpClient())
             {
-                using (var reponse = await client.GetAsync(apiUrl))
+                // Encode các tham số để tránh lỗi khi có ký tự đặc biệt
+                string encodedSearch = Uri.EscapeDataString(search ?? "");
+                string encodedStatus = Uri.EscapeDataString(status ?? "");
+
+                var url = $"{apiUrl}/paging?page={page}&pageSize={pageSize}&search={encodedSearch}&status={encodedStatus}";
+                var response = await client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    if (reponse.IsSuccessStatusCode)
-                    {
-                        string api = await reponse.Content.ReadAsStringAsync();
-                        data = JsonConvert.DeserializeObject<List<BanDaoTao>>(api);
-                    }
+                    var json = await response.Content.ReadAsStringAsync();
+                    pagedData = JsonConvert.DeserializeAnonymousType(json, pagedData);
                 }
-
             }
-            return View(data);
 
+            // Truyền các tham số lọc để View giữ lại giá trị
+            ViewBag.Pagination = pagedData.pagination;
+            ViewBag.Search = search;
+            ViewBag.Status = status;
+
+            return View(pagedData.data);
         }
+
+
+
 
         // GET: BanDaoTaos/Details/5
         public async Task<IActionResult> Details(Guid? id)

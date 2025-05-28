@@ -16,12 +16,52 @@ namespace API.Controllers
             _context = context;
         }
         // GET: api/<BanDaoTaoController>
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        // --- Sửa API để hỗ trợ tìm kiếm và lọc ---
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaged(
+            int page = 1,
+            int pageSize = 5,
+            string? search = null,
+            string? status = null)
         {
-            var data = await _context.BanDaoTaos.ToListAsync();
-            return Ok(data);
+            var query = _context.BanDaoTaos.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.ToLower();
+                query = query.Where(x =>
+                    x.MaBanDaoTao.ToLower().Contains(search) ||
+                    x.TenBanDaoTao.ToLower().Contains(search));
+            }
+
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                if (status == "active")
+                    query = query.Where(x => x.TrangThai == true);
+                else if (status == "inactive")
+                    query = query.Where(x => x.TrangThai == false);
+            }
+
+            var totalItems = await query.CountAsync();
+            var data = await query.OrderByDescending(x => x.NgayTao)
+                                  .Skip((page - 1) * pageSize)
+                                  .Take(pageSize)
+                                  .ToListAsync();
+
+            return Ok(new
+            {
+                data,
+                pagination = new
+                {
+                    currentPage = page,
+                    pageSize,
+                    totalItems,
+                    totalPages = (int)Math.Ceiling((double)totalItems / pageSize)
+                }
+            });
         }
+
+
 
         // GET api/<BanDaoTaoController>/5
         [HttpGet("{id}")]

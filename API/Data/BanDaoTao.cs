@@ -22,7 +22,7 @@ namespace API.Data
 
         public DateTime NgayTao { get; set; } = DateTime.Now;
 
-        public DateTime? NgayCapNhat { get; set; }
+        public DateTime? NgayCapNhat { get; set; } 
 
         public bool TrangThai { get; set; } = true;
 
