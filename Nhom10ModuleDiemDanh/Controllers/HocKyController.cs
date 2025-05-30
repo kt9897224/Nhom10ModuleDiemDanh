@@ -13,7 +13,7 @@ namespace Nhom10ModuleDiemDanh.Controllers
         public HocKyController(IHttpClientFactory factory)
         {
             var client = factory.CreateClient("MyApi"); 
-            client.BaseAddress = new Uri("https://localhost:7296/api/"); 
+            client.BaseAddress = new Uri("https://localhost:7296/"); 
             _client = client;
         }
 

@@ -20,5 +20,5 @@ namespace API.Data
         public virtual ICollection<NhomXuong> NhomXuongs { get; set; }
         public virtual ICollection<DuAn> DuAns { get; set; }
         public virtual ICollection<BoMonCoSo> BoMonCoSos { get; set; }
-    }
+    }   
 }
