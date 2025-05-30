@@ -169,7 +169,7 @@ namespace Nhom10ModuleDiemDanh.Controllers
             using (var httpclient = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(banDaoTao), Encoding.UTF8, "application/json");
-                using (var response = await httpclient.PostAsync($"{apiUrl}/{id}", content))
+                using (var response = await httpclient.PutAsync($"{apiUrl}/{id}", content))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -208,7 +208,7 @@ namespace Nhom10ModuleDiemDanh.Controllers
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             using (var httpclient = new HttpClient())
             {

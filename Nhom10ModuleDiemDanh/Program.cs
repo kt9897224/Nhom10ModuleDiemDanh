@@ -1,9 +1,14 @@
+using API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient("MyApi", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7296/api/");
 });
+builder.Services.AddDbContext<ModuleDiemDanhDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

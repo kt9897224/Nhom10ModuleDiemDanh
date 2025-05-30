@@ -54,10 +54,15 @@
             @Html.DisplayFor(model => model.TrangThai)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdBanDaoTao" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+
+    <form asp-action="Delete" asp-controller="BanDaoTaos" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.IdBanDaoTao" />
+        <p>Bạn có chắc chắn muốn xoá <strong>@Model.TenBanDaoTao</strong> không?</p>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-danger">Xoá</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+        </div>
     </form>
+
 </div>
