@@ -106,7 +106,14 @@
         </div>
         <div class="main-content">
             <h1 class="main-title">Cán bộ đào tạo</h1>
-            <button class="logout-button">Đăng xuất</button>
+            <button class="logout-button" onclick="logout()">Đăng xuất</button>
+
+            <script>
+                function logout() {
+                    window.location.href = "/Home/Index";
+                }
+            </script>
+
         </div>
     </div>
 </body>
